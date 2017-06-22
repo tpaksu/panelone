@@ -1,0 +1,37 @@
+{
+  "name": "panelone",
+  "version": "1.0.0",
+  "description": "responsive panels plugin",
+  "main": "panelone.js",
+  "scripts": {
+    "test": "npm jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/tpaksu/panelone"
+  },
+  "keywords": [
+    "side",
+    "panel",
+    "sidebar",
+    "drawer",
+    "jquery",
+    "panel",
+    "javascript"
+  ],
+  "author": "Taha PAKSU",
+  "license": "ISC",
+  "devDependencies": {
+  	"grunt": "~0.4.4",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-contrib-compress": "^1.4.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "~0.9.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-markdown": "^0.7.0",
+    "js-obfuscator": "^0.1.1"
+  }
+}
