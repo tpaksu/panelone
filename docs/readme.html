@@ -1,0 +1,51 @@
+<!DOCTYPE  html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>
+            PanelOne
+        </title>
+        <link href="includes/bootstrap.min.css" rel="stylesheet" />
+        <link href="includes/prism.css" rel="stylesheet" />
+        <link href="includes/toc.css" rel="stylesheet" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<scr'+'ipt src="../js/jquery-2.1.4.min.js" type="text/javascript"><\/scr'+'ipt>')</script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="includes/prism.js" type="text/javascript"></script>
+        <script src="includes/toc.min.js" type="text/javascript"></script>
+        <!-- caleran includes -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet"/>
+        <link href="../build/css/caleran.min.css" rel="stylesheet"/>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <script src="../build/js/moment.min.js"></script>
+    	<script src="../build/js/caleran.obf.js"></script>
+        <!-- end caleran includes -->
+    </head>
+    <body>
+    	<div class="container-fluid">
+    		<div class="row content-all">
+                <div class="col-md-2 hidden-sm toc-container" id="scrollspy"></div>
+    			<div class="col-md-9 col-md-offset-2 col-sm-12 contents" id="contents"></div>
+			</div>
+	    </div>
+    	<script type="text/javascript">
+
+        if((window.innerWidth <= 800 && window.innerHeight <= 600) || (window.innerWidth <= 600 && window.innerHeight <= 800)) {
+            $(".hidden-sm").hide();
+            $("img").addClass("img-responsive");
+        }else{
+            tocbot.init({
+              // Where to render the table of contents.
+              tocSelector: '#scrollspy',
+              // Where to grab the headings to build the table of contents.
+              contentSelector: '#contents',
+              // Which headings to grab inside of the contentSelector element.
+              headingSelector: 'h1, h2, h3',
+              positionFixedSelector: "#scrollspy",
+              collapseDepth: 6
+            });
+        }
+    	</script>
+    </body>
+</html>

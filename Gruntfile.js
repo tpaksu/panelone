@@ -7,8 +7,8 @@ module.exports = function( grunt ) {
                 sourceMap: true
             },
             build: {
-                src: [ 'js/evendar.js', 'js/jquery.hammer.js' ],
-                dest: 'build/js/evendar.min.js'
+                src: [ 'js/panelone.js'],
+                dest: 'build/js/panelone.min.js'
             }
         },
         sass: {
@@ -17,13 +17,13 @@ module.exports = function( grunt ) {
                     style: 'compressed'
                 },
                 files: {
-                    'build/css/evendar.min.css': 'css/evendar.scss'
+                    'build/css/panelone.min.css': 'css/panelone.scss'
                 }
             }
         },
         watch: {
             scripts: {
-                files: [ 'js/evendar.js' ],
+                files: [ 'js/panelone.js' ],
                 tasks: [ 'uglify', 'jsObfuscate' ]
             },
             styles: {
@@ -53,14 +53,14 @@ module.exports = function( grunt ) {
         jsObfuscate: {
             default: {
                 files: {
-                    'build/js/evendar.obf.js': 'build/js/evendar.min.js'
+                    'build/js/panelone.obf.js': 'build/js/panelone.min.js'
                 }
             }
         },
         compress: {
             main: {
                 options: {
-                    archive: 'output/evendar.zip'
+                    archive: 'output/panelone.zip'
                 },
                 files: [ {
                     src: [ 'css/**' ],
