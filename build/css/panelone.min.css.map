@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "",
-"sources": [],
+"mappings": "AAAA,eAAgB,CACZ,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,MAAM,CAAE,CAAC,CACT,SAAS,CAAE,iBAAiB,CAC5B,UAAU,CAAC,KAAK,CAChB,OAAO,CAAE,EAAE,CACX,UAAU,CAAE,mBAAmB,CAC/B,6BAAgB,CACZ,SAAS,CAAE,aAAa,CACxB,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,sBAAsB",
+"sources": ["../../css/panelone.scss"],
 "names": [],
 "file": "panelone.min.css"
 }
