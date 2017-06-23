@@ -27,7 +27,9 @@
             this.bindEvents();
         },
         appendButtonHolder: function() {
-            this.buttons = $("<div class='panelone-buttons panelone-buttons-" + this.options.location + "'></div>").appendTo(this.options.container);
+            this.buttons = $("<div class='panelone-buttons'></div>")
+            .appendTo(this.options.container);
+            this.buttons.wrapAll("<div class='panelone-buttons-wrapper panelone-buttons-" + this.options.location + "'></div>");
         },
         appendDeviceIndicator: function() {
             if ($(".panelone-state-indicator").length === 0) {
@@ -56,12 +58,16 @@
                 panel.trigger("panelone:show");
                 that.fixPanelClasses();
             });
+            $(window).on("resize.panelone", function() {
+                $(".panelone-panel").width(that.options.panelWidths[that.getDeviceState()]);
+            });
         },
         fixPanelClasses: function() {
+            this.buttons.empty();
             for (var panelIndex = this.openPanels.length - 1; panelIndex >= 0; panelIndex--) {
                 if (this.openPanels.hasOwnProperty(panelIndex)) {
                     var panel = this.openPanels[panelIndex];
-                    console.log(panel);
+                    this.buttons.prepend("<div class='panelone-button'>" + panelIndex + "</div>");
                     panel.removeClass(function(index, className) {
                         return (className.match(/panelone-back-\d+/g) || []).join(' ');
                     }).addClass("panelone-back-" + (this.openPanels.length - panelIndex - 1));

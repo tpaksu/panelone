@@ -2,12 +2,15 @@
 @import "mixins";
 $buttons: 40px;
 $max-z-index: 100000;
-.panelone-buttons {
+$max-levels: 50;
+$min-z-index: $max-z-index - $max-levels;
+
+.panelone-buttons-wrapper {
     position: fixed;
     top: 0;
     bottom: 0;
     width: $buttons;
-    background: black;
+    overflow: hidden;
     z-index: $max-z-index;
     &.panelone-buttons-left {
         left: 0;
@@ -15,27 +18,34 @@ $max-z-index: 100000;
     &.panelone-buttons-right {
         right: 0;
     }
-    .panelone-button {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 12px;
+    .panelone-buttons {
         background: ghostwhite;
-        color: black;
-        font-weight: 700;
-        padding: 13px;
-        margin: 1px;
-        margin-bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        overflow-y: scroll;
+        width: $buttons + 17px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        .panelone-button {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 12px;
+            background: white;
+            color: black;
+            font-weight: 700;
+            padding: 13px;
+            margin: 1px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
-
 .panelone-panel {
     position: fixed;
     top: 0;
     bottom: 0;
     background: white;
-    opacity: .5;
     z-index: $max-z-index - 1;
     transition: all .3s ease;
     padding: 10px;
@@ -56,11 +66,11 @@ $max-z-index: 100000;
         &.panelone-show {
             transform: translateX(0);
             opacity: 1;
-            @for $i from 1 through 20 {
+            @for $i from 1 through $max-levels {
                 &.panelone-back-#{$i} {
-                    transform: scale(pow(.987, $i)) translateX($i * 5px);
+                    /*transform: scale(pow(.987, $i)) translateX($i * 5px);*/
                     z-index: #{$max-z-index - $i - 1};
-                    opacity: 0.9 / $i;
+                   /* opacity: 0.9 / $i;*/
                 }
             }
         }
@@ -73,9 +83,9 @@ $max-z-index: 100000;
             opacity: 1;
             @for $i from 1 through 20 {
                 &.panelone-back-#{$i} {
-                    transform: scale(pow(.987, $i)) translateX($i * -5px);
+                    /*transform: scale(pow(.987, $i)) translateX($i * -5px);*/
                     z-index: #{$max-z-index - $i - 1};
-                    opacity: 0.9 / $i;
+                    /*opacity: 0.9 / $i;*/
                 }
             }
         }
