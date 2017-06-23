@@ -1,15 +1,83 @@
+@import "mediaquery";
+@import "mixins";
+$buttons: 40px;
+$max-z-index: 100000;
+.panelone-buttons {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: $buttons;
+    background: black;
+    z-index: $max-z-index;
+    &.panelone-buttons-left {
+        left: 0;
+    }
+    &.panelone-buttons-right {
+        right: 0;
+    }
+    .panelone-button {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 12px;
+        background: ghostwhite;
+        color: black;
+        font-weight: 700;
+        padding: 13px;
+        margin: 1px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 .panelone-panel {
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
-    transform: translateX(-100%);
-    background:white;
-    opacity: .8;
-    transition: all .3s ease-in-out;
-    &.panelone-show {
-        transform: translateX(0);
-        opacity: 1;
-        box-shadow: 0px 0px 10px 0px black;
+    background: white;
+    opacity: .5;
+    z-index: $max-z-index - 1;
+    transition: all .3s ease;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    .panelone-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        background: black;
+        color: white;
+        font-size: 11px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    &.panelone-panel-left {
+        left: $buttons;
+        transform: translateX(-100%);
+        &.panelone-show {
+            transform: translateX(0);
+            opacity: 1;
+            @for $i from 1 through 20 {
+                &.panelone-back-#{$i} {
+                    transform: scale(pow(.987, $i)) translateX($i * 5px);
+                    z-index: #{$max-z-index - $i - 1};
+                    opacity: 0.9 / $i;
+                }
+            }
+        }
+    }
+    &.panelone-panel-right {
+        right: $buttons;
+        transform: translateX(100%);
+        &.panelone-show {
+            transform: translateX(0);
+            opacity: 1;
+            @for $i from 1 through 20 {
+                &.panelone-back-#{$i} {
+                    transform: scale(pow(.987, $i)) translateX($i * -5px);
+                    z-index: #{$max-z-index - $i - 1};
+                    opacity: 0.9 / $i;
+                }
+            }
+        }
     }
 }

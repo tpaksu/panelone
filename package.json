@@ -22,7 +22,7 @@
   "author": "Taha PAKSU",
   "license": "ISC",
   "devDependencies": {
-  	"grunt": "~0.4.4",
+    "grunt": "~0.4.4",
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-copy": "^1.0.0",

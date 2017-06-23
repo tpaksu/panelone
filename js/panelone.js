@@ -1,12 +1,19 @@
-; (function ($, window, document, undefined) {
+;
+(function($, window, document, undefined) {
     var defaults = {
         location: "left",
         container: "body",
-        openPanels: [],
-        panelWidth: "80vw"
+        panelWidths: {
+            'desktop': "300px",
+            'small-desktop': "300px",
+            'tablet': "300px",
+            'phone-portrait': "80vw",
+            'phone-landscape': "80vh"
+        }
     };
 
     function panelone(element, options) {
+        this.openPanels = [];
         this.options = $.extend({}, defaults, options);
         this.options.trigger = $(element);
         this._defaults = defaults;
@@ -14,40 +21,72 @@
     }
 
     panelone.prototype = {
-        init: function () {
+        init: function() {
+            this.appendButtonHolder();
+            this.appendDeviceIndicator();
             this.bindEvents();
         },
-        bindEvents: function () {
-            var that = this;
-            this.options.trigger.off("click.panelone").on("click.panelone", function () {
-                if (that.options.openPanels.length == 0) {
-                    var panel = that.createPanel();
-                    that.options.openPanels.push(panel);
-                    panel.appendTo(that.options.container);
-                    panel.trigger("panelone:show");
-                } else {
-                    var panel = that.options.openPanels.pop();
-                    panel.trigger("panelone:hide");
-                }
+        appendButtonHolder: function() {
+            this.buttons = $("<div class='panelone-buttons panelone-buttons-" + this.options.location + "'></div>").appendTo(this.options.container);
+        },
+        appendDeviceIndicator: function() {
+            if ($(".panelone-state-indicator").length === 0) {
+                $("body").append("<div class='panelone-state-indicator'></div>");
+            }
+        },
+        getDeviceState: function() {
+            var indicator = $(".panelone-state-indicator").get(0);
+            var index = parseInt(window.getComputedStyle(indicator).getPropertyValue('z-index'), 10);
+            var states = {
+                2: 'small-desktop',
+                3: 'tablet',
+                4: 'phone-portrait',
+                5: 'phone-landscape'
+            };
+            console.log(states[index] || 'desktop');
+            return states[index] || 'desktop';
+        },
+        bindEvents: function() {
+            var that = this,
+                panel = null;
+            this.options.trigger.off("click.panelone").on("click.panelone", function() {
+                panel = that.createPanel();
+                that.openPanels.push(panel);
+                panel.appendTo(that.options.container);
+                panel.trigger("panelone:show");
+                that.fixPanelClasses();
             });
         },
-        createPanel: function () {
+        fixPanelClasses: function() {
+            for (var panelIndex = this.openPanels.length - 1; panelIndex >= 0; panelIndex--) {
+                if (this.openPanels.hasOwnProperty(panelIndex)) {
+                    var panel = this.openPanels[panelIndex];
+                    console.log(panel);
+                    panel.removeClass(function(index, className) {
+                        return (className.match(/panelone-back-\d+/g) || []).join(' ');
+                    }).addClass("panelone-back-" + (this.openPanels.length - panelIndex - 1));
+                }
+            }
+        },
+        createPanel: function() {
             var that = this;
-            var panel = $("<div class='panelone-panel' style='width: " + this.options.panelWidth + ";'>Panel #" + this.options.openPanels.length + "</div>");
+            var panel = $("<div class='panelone-panel panelone-panel-" + this.options.location + "' style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'>Panel #" + this.openPanels.length + "</div>");
+            this.buttons.append("<div class='panelone-button'>" + this.openPanels.length + "</div>");
             var panelClose = $("<div class='panelone-close'>Close</div>").appendTo(panel);
-            panelClose.on("click", function(){
+            panelClose.on("click", function() {
                 panel.trigger("panelone:hide");
-                that.options.openPanels.splice(that.options.openPanels.indexOf(panel), 1);
             });
-            panel.on("panelone:show", function () {
+            panel.on("panelone:show", function() {
                 var $this = $(this);
-                setTimeout(function () {
+                setTimeout(function() {
                     $this.addClass("panelone-show");
                 }, 0);
-            }).on("panelone:hide", function () {
+            }).on("panelone:hide", function() {
                 var $this = $(this);
-                $this.removeClass("panelone-show").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function () {
+                $this.removeClass("panelone-show").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                    that.openPanels.splice(that.openPanels.indexOf($this), 1);
                     $this.remove();
+                    that.fixPanelClasses();
                 });
             }).appendTo(this.options.container);
 
@@ -55,8 +94,8 @@
         }
     };
 
-    $.fn["panelone"] = function (options) {
-        return this.each(function () {
+    $.fn.panelone = function(options) {
+        return this.each(function() {
             if (!$.data(this, "panelone")) {
                 $.data(this, "panelone",
                     new panelone(this, options));

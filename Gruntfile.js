@@ -1,13 +1,13 @@
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
     // Project configuration.
-    grunt.initConfig( {
-        pkg: grunt.file.readJSON( 'package.json' ),
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         uglify: {
             options: {
                 sourceMap: true
             },
             build: {
-                src: [ 'js/panelone.js'],
+                src: ['js/panelone.js'],
                 dest: 'build/js/panelone.min.js'
             }
         },
@@ -23,26 +23,26 @@ module.exports = function( grunt ) {
         },
         watch: {
             scripts: {
-                files: [ 'js/panelone.js' ],
-                tasks: [ 'uglify', 'jsObfuscate' ]
+                files: ['js/panelone.js'],
+                tasks: ['uglify' /*, 'jsObfuscate'*/ ]
             },
             styles: {
-                files: [ 'css/*.scss' ],
+                files: ['css/*.scss'],
                 tasks: 'sass'
             },
             docs: {
-                files: [ 'readme.md', 'docs/includes/template.html' ],
+                files: ['readme.md', 'docs/includes/template.html'],
                 tasks: 'markdown'
             }
         },
         markdown: {
             all: {
-                files: [ {
+                files: [{
                     expand: true,
                     src: 'readme.md',
                     dest: 'docs/',
                     ext: '.html'
-                } ],
+                }],
                 options: {
                     template: 'docs/includes/template.html',
                     autoTemplate: true,
@@ -62,20 +62,20 @@ module.exports = function( grunt ) {
                 options: {
                     archive: 'output/panelone.zip'
                 },
-                files: [ {
-                    src: [ 'css/**' ],
+                files: [{
+                    src: ['css/**'],
                     dest: '/',
                 }, {
-                    src: [ 'build/**' ],
+                    src: ['build/**'],
                     dest: '/'
                 }, {
-                    src: [ 'js/**' ],
+                    src: ['js/**'],
                     dest: '/'
                 }, {
-                    src: [ 'docs/**' ],
+                    src: ['docs/**'],
                     dest: '/'
                 }, {
-                    src: [ 'gruntfile.js', '.gitignore', '.jshintrc', 'package.json', 'readme.md', 'CHANGELOG' ],
+                    src: ['gruntfile.js', '.gitignore', '.jshintrc', 'package.json', 'readme.md', 'CHANGELOG'],
                     dest: '/'
                 }, ]
             },
@@ -83,26 +83,26 @@ module.exports = function( grunt ) {
                 options: {
                     archive: 'output/screenshots.zip'
                 },
-                files: [ {
+                files: [{
                     expand: true,
                     cwd: 'toolbox/screenshots/',
-                    src: [ '*.png', '!inline.png', '!thumbnail.png' ],
+                    src: ['*.png', '!inline.png', '!thumbnail.png'],
                     dest: '/'
-                } ]
+                }]
             },
         },
         copy: {
             main: {
                 expand: true,
                 cwd: 'toolbox',
-                src: ['inline.png','thumbnail.png'],
+                src: ['inline.png', 'thumbnail.png'],
                 dest: 'output/',
             },
         },
         browserSync: {
             dev: {
                 bsFiles: {
-                    src : [
+                    src: [
                         'build/css/*.min.css',
                         'build/js/*.min.js'
                     ]
@@ -117,7 +117,7 @@ module.exports = function( grunt ) {
             },
             docs: {
                 bsFiles: {
-                    src : [
+                    src: [
                         'docs/**/*'
                     ]
                 },
@@ -130,18 +130,18 @@ module.exports = function( grunt ) {
                 }
             }
         }
-    } );
-    grunt.loadNpmTasks( 'grunt-markdown' );
-    grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-    grunt.loadNpmTasks( 'grunt-contrib-sass' );
-    grunt.loadNpmTasks( 'grunt-contrib-watch' );
-    grunt.loadNpmTasks( 'js-obfuscator' );
-    grunt.loadNpmTasks( 'grunt-contrib-compress' );
-    grunt.loadNpmTasks( 'grunt-contrib-copy' );
-    grunt.loadNpmTasks( 'grunt-browser-sync' );
-    grunt.registerTask( 'min', [ 'uglify', 'jsObfuscate', 'sass', 'markdown', 'compress', 'copy' ] );
-    grunt.registerTask( 'default', [ 'uglify', 'jsObfuscate', 'sass', 'markdown', 'compress', 'copy' ] );
-    grunt.registerTask( 'watcher', ['browserSync:dev', 'watch']);
-    grunt.registerTask( 'watchdocs', ['browserSync:docs', 'watch']);
+    });
+    grunt.loadNpmTasks('grunt-markdown');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('js-obfuscator');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-browser-sync');
+    grunt.registerTask('min', ['uglify', 'jsObfuscate', 'sass', 'markdown', 'compress', 'copy']);
+    grunt.registerTask('default', ['uglify', 'jsObfuscate', 'sass', 'markdown', 'compress', 'copy']);
+    grunt.registerTask('watcher', ['browserSync:dev', 'watch']);
+    grunt.registerTask('watchdocs', ['browserSync:docs', 'watch']);
 
 };
