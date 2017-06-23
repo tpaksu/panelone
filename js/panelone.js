@@ -3,6 +3,7 @@
     var defaults = {
         location: "left",
         container: "body",
+        theme: "light",
         panelWidths: {
             'desktop': "300px",
             'small-desktop': "300px",
@@ -29,7 +30,7 @@
         appendButtonHolder: function() {
             this.buttons = $("<div class='panelone-buttons'></div>")
             .appendTo(this.options.container);
-            this.buttons.wrapAll("<div class='panelone-buttons-wrapper panelone-buttons-" + this.options.location + "'></div>");
+            this.buttons.wrapAll("<div class='panelone-buttons-wrapper panelone-buttons-"+this.options.theme+" panelone-buttons-" + this.options.location + "'></div>");
         },
         appendDeviceIndicator: function() {
             if ($(".panelone-state-indicator").length === 0) {
@@ -76,9 +77,9 @@
         },
         createPanel: function() {
             var that = this;
-            var panel = $("<div class='panelone-panel panelone-panel-" + this.options.location + "' style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'>Panel #" + this.openPanels.length + "</div>");
+            var panel = $("<div class='panelone-panel panelone-panel-"+this.options.theme+" panelone-panel-" + this.options.location + "' style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'>Panel #" + this.openPanels.length + "</div>");
             this.buttons.append("<div class='panelone-button'>" + this.openPanels.length + "</div>");
-            var panelClose = $("<div class='panelone-close'>Close</div>").appendTo(panel);
+            var panelClose = $("<div class='panelone-close'>Close</div>").prependTo(panel);
             panelClose.on("click", function() {
                 panel.trigger("panelone:hide");
             });

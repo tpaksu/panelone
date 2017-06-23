@@ -1,5 +1,8 @@
 @import "mediaquery";
 @import "mixins";
+@import "dark_theme";
+@import "light_theme";
+
 $buttons: 40px;
 $max-z-index: 100000;
 $max-levels: 50;
@@ -19,7 +22,6 @@ $min-z-index: $max-z-index - $max-levels;
         right: 0;
     }
     .panelone-buttons {
-        background: ghostwhite;
         overflow-y: scroll;
         width: $buttons + 17px;
         position: absolute;
@@ -29,8 +31,6 @@ $min-z-index: $max-z-index - $max-levels;
         .panelone-button {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 12px;
-            background: white;
-            color: black;
             font-weight: 700;
             padding: 13px;
             margin: 1px;
@@ -45,24 +45,21 @@ $min-z-index: $max-z-index - $max-levels;
     position: fixed;
     top: 0;
     bottom: 0;
-    background: white;
     z-index: $max-z-index - 1;
     transition: all .3s ease;
     padding: 10px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    .panelone-close {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 10px;
-        background: black;
-        color: white;
-        font-size: 11px;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
     &.panelone-panel-left {
         left: $buttons;
         transform: translateX(-100%);
+        .panelone-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            font-size: 11px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
         &.panelone-show {
             transform: translateX(0);
             opacity: 1;
@@ -78,6 +75,15 @@ $min-z-index: $max-z-index - $max-levels;
     &.panelone-panel-right {
         right: $buttons;
         transform: translateX(100%);
+        .panelone-close {
+            position: relative;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            padding: 10px;
+            font-size: 11px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
         &.panelone-show {
             transform: translateX(0);
             opacity: 1;

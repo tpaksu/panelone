@@ -14,10 +14,12 @@
     <script src="../build/js/panelone.min.js"></script>
 </head>
 
-<body style="background: #00c2d5; display: flex; align-items: flex-start; margin-top: 200px; justify-content: center; height: 100%;">
-    <div class="trigger">Open Panel</div>
+<body style="background: ghostwhite; display: flex; align-items: flex-start; margin-top: 200px; justify-content: center; height: 100%;">
+    <div class="trigger">Open Panel on Left</div>
+    <div class="trigger-2">Open Panel on Right</div>
     <script type="text/javascript">
         $(".trigger").panelone();
+        $(".trigger-2").panelone({location: "right", theme: "dark"});
     </script>
 </body>
 
