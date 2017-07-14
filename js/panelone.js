@@ -25,6 +25,7 @@
             this.appendPanelHolder();
             this.appendDeviceIndicator();
             this.bindEvents();
+            this.checkContainerStatus();
         },
         appendButtonHolder: function() {
             this.buttons = $("<div class='panelone-buttons'></div>").appendTo(this.options.container);
@@ -62,6 +63,7 @@
             " style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'></div>");
             panel.html(content).appendTo(this.panels);
             var button = $("<div class='panelone-button'>" + icon + "</div>").appendTo(this.buttons);
+            this.checkContainerStatus();
             var panelClose = $("<div class='panelone-close'>Close</div>").prependTo(panel);
             panelClose.on("click", function() {
                 panel.trigger("panelone:hide");
@@ -85,10 +87,13 @@
                     }).each(function(){
                         $(this).attr("data-index", +$(this).attr("data-index") - 1);
                     });
-                    var newActive = that.panels.find(".panelone-panel[data-index=1]");
-                    dataIndex = that.panels.find(".panelone-panel").index(newActive);
-                    newActive.addClass("panelone-active");
-                    that.buttons.find(".panelone-button").removeClass("panelone-button-active").eq(dataIndex).addClass("panelone-button-active");
+                    if(that.panels.find(".panelone-panel").length > 0){
+                        var newActive = that.panels.find(".panelone-panel[data-index=1]");
+                        dataIndex = that.panels.find(".panelone-panel").index(newActive);
+                        newActive.addClass("panelone-active");
+                        that.buttons.find(".panelone-button").removeClass("panelone-button-active").eq(dataIndex).addClass("panelone-button-active");
+                    }
+                    that.checkContainerStatus();
                 });
             });
             button.on("click", function(){
@@ -108,6 +113,17 @@
                 $(this).attr("data-index", +$(this).attr("data-index") + 1);
             });
             this.panels.find(".panelone-active").attr("data-index", 1);
+        },
+        checkContainerStatus: function(){
+            if(this.panels.find(".panelone-panel").length > 0){
+                if(this.buttons.closest(".panelone-buttons-wrapper").hasClass("panelone-buttons-hidden")){
+                    this.buttons.closest(".panelone-buttons-wrapper").removeClass("panelone-buttons-hidden");
+                }
+            }else{
+                if(!this.buttons.closest(".panelone-buttons-wrapper").hasClass("panelone-buttons-hidden")){
+                    this.buttons.closest(".panelone-buttons-wrapper").addClass("panelone-buttons-hidden");
+                }
+            }
         }
     };
 

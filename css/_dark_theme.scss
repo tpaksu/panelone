@@ -1,22 +1,36 @@
-
+$border-color: #21293A;
+$button-background: #11192A;
+$button-color: ghostwhite;
+$bar-background: black;
+$selected-background: deeppink;
+$selected-color: white;
+$panel-background: #21293A;
+$panel-text: white;
 .panelone-buttons-dark {
     .panelone-buttons {
-        background: #131315;
+        background: $bar-background;
+        padding: 0;
+        margin:0;
+        box-shadow: inset -18px 0 0 0 $border-color;
         .panelone-button {
-            background: #21293A;
-            color: deeppink;
+            background: $button-background;
+            color: $button-color;
+            border: 1px solid $border-color;
+            margin: 2px 3px 2px 2px !important;
             &.panelone-button-active {
-                background: black;
-                color: white;
+                background: $selected-background;
+                color: $selected-color;
+                border: 1px solid $selected-background;
             }
         }
     }
 }
 .panelone-panel-dark {
-    color: white;
-    background: black;
+    color: $panel-text;
+    background: $panel-background;
+    border-right: 1px solid $border-color;
     .panelone-close {
-        background: white;
-        color: black;
+        background: $panel-text;
+        color: $panel-background;
     }
 }

@@ -17,9 +17,19 @@ $min-z-index: $max-z-index - $max-levels;
     z-index: $max-z-index + 5;
     &.panelone-buttons-left {
         left: 0;
+        transition: all .33s ease;
+        transform: translateY(0);
+        &.panelone-buttons-hidden {
+            transform: translateX(-100%);
+        }
     }
     &.panelone-buttons-right {
         right: 0;
+        transition: all .33s ease;
+        transform: translateY(0);
+        &.panelone-buttons-hidden {
+            transform: translateX(100%);
+        }
     }
     .panelone-buttons {
         overflow-y: scroll;
@@ -48,7 +58,7 @@ $min-z-index: $max-z-index - $max-levels;
     top: 0;
     bottom: 0;
     z-index: $max-z-index - 1;
-    transition: all .3s ease;
+    transition: all .33s ease;
     padding: 15px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding-top: 45px;
