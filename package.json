@@ -20,7 +20,7 @@
     "javascript"
   ],
   "author": "Taha PAKSU",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.4",
     "grunt-browser-sync": "^2.2.0",
