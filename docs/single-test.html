@@ -21,12 +21,12 @@
         var left_panel = $.panelOne();
         var right_panel = $.panelOne({location: "right", theme: "dark"});
         $(".trigger").on("click", function(){
-            $.getJSON("http://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
+            $.getJSON("https://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
                 left_panel.createPanel("<i class='fa fa-pencil'></i>",data.value.joke);
             });
         });
         $(".trigger-2").on("click", function(){
-            $.getJSON("http://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
+            $.getJSON("https://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
                 right_panel.createPanel("<i class='fa fa-pencil'></i>",data.value.joke);
             });
         });
