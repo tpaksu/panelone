@@ -14,12 +14,22 @@
     <script src="../build/js/panelone.min.js"></script>
 </head>
 
-<body style="background: ghostwhite; display: flex; align-items: flex-start; margin-top: 200px; justify-content: center; height: 100%;">
-    <div class="trigger">Open Panel on Left</div>
-    <div class="trigger-2">Open Panel on Right</div>
+<body style="background:url('cn.png'); display: flex; align-items: flex-start; margin-top: 200px; justify-content: center; height: 100%;">
+    <button class="trigger">Open Panel on Left</button>
+    <button class="trigger-2">Open Panel on Right</button>
     <script type="text/javascript">
-        $(".trigger").panelone();
-        $(".trigger-2").panelone({location: "right", theme: "dark"});
+        var left_panel = $.panelOne();
+        var right_panel = $.panelOne({location: "right", theme: "dark"});
+        $(".trigger").on("click", function(){
+            $.getJSON("http://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
+                left_panel.createPanel("<i class='fa fa-pencil'></i>",data.value.joke);
+            });
+        });
+        $(".trigger-2").on("click", function(){
+            $.getJSON("http://api.icndb.com/jokes/random?exclude=[explicit]", function(data){
+                right_panel.createPanel("<i class='fa fa-pencil'></i>",data.value.joke);
+            });
+        });
     </script>
 </body>
 

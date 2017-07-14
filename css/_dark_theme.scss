@@ -5,6 +5,10 @@
         .panelone-button {
             background: #21293A;
             color: deeppink;
+            &.panelone-button-active {
+                background: black;
+                color: white;
+            }
         }
     }
 }

@@ -2,15 +2,25 @@
 .panelone-buttons-light {
     .panelone-buttons {
         background: ghostwhite;
+        padding: 0;
+        margin:0;
+        border-right: 1px solid #d1d1df;
         .panelone-button {
             background: white;
             color: deepskyblue;
+            border-bottom: 1px solid #c1c1cf;
+            margin: 0 !important;
+            &.panelone-button-active {
+                background: white;
+                color: black;
+            }
         }
     }
 }
 .panelone-panel-light {
     color: black;
     background: white;
+    border-right: 1px solid #d1d1df;
     .panelone-close {
         background: black;
         color: white;

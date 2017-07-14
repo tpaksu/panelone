@@ -13,24 +13,26 @@
         }
     };
 
-    function panelone(element, options) {
-        this.openPanels = [];
+    function panelOne_instance(options) {
         this.options = $.extend({}, defaults, options);
-        this.options.trigger = $(element);
         this._defaults = defaults;
         this.init();
     }
 
-    panelone.prototype = {
+    panelOne_instance.prototype = {
         init: function() {
             this.appendButtonHolder();
+            this.appendPanelHolder();
             this.appendDeviceIndicator();
             this.bindEvents();
         },
         appendButtonHolder: function() {
-            this.buttons = $("<div class='panelone-buttons'></div>")
-            .appendTo(this.options.container);
+            this.buttons = $("<div class='panelone-buttons'></div>").appendTo(this.options.container);
             this.buttons.wrapAll("<div class='panelone-buttons-wrapper panelone-buttons-"+this.options.theme+" panelone-buttons-" + this.options.location + "'></div>");
+        },
+        appendPanelHolder: function() {
+            this.panels = $("<div class='panelone-panels'></div>").appendTo(this.options.container);
+            this.panels.wrapAll("<div class='panelone-panels-wrapper panelone-panels-"+this.options.theme+" panelone-panels-" + this.options.location + "'></div>");
         },
         appendDeviceIndicator: function() {
             if ($(".panelone-state-indicator").length === 0) {
@@ -46,39 +48,20 @@
                 4: 'phone-portrait',
                 5: 'phone-landscape'
             };
-            console.log(states[index] || 'desktop');
             return states[index] || 'desktop';
         },
         bindEvents: function() {
-            var that = this,
-                panel = null;
-            this.options.trigger.off("click.panelone").on("click.panelone", function() {
-                panel = that.createPanel();
-                that.openPanels.push(panel);
-                panel.appendTo(that.options.container);
-                panel.trigger("panelone:show");
-                that.fixPanelClasses();
-            });
+            var that = this;
             $(window).on("resize.panelone", function() {
                 $(".panelone-panel").width(that.options.panelWidths[that.getDeviceState()]);
             });
         },
-        fixPanelClasses: function() {
-            this.buttons.empty();
-            for (var panelIndex = this.openPanels.length - 1; panelIndex >= 0; panelIndex--) {
-                if (this.openPanels.hasOwnProperty(panelIndex)) {
-                    var panel = this.openPanels[panelIndex];
-                    this.buttons.prepend("<div class='panelone-button'>" + panelIndex + "</div>");
-                    panel.removeClass(function(index, className) {
-                        return (className.match(/panelone-back-\d+/g) || []).join(' ');
-                    }).addClass("panelone-back-" + (this.openPanels.length - panelIndex - 1));
-                }
-            }
-        },
-        createPanel: function() {
+        createPanel: function(icon, content) {
             var that = this;
-            var panel = $("<div class='panelone-panel panelone-panel-"+this.options.theme+" panelone-panel-" + this.options.location + "' style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'>Panel #" + this.openPanels.length + "</div>");
-            this.buttons.append("<div class='panelone-button'>" + this.openPanels.length + "</div>");
+            var panel = $("<div class='panelone-panel panelone-panel-"+this.options.theme+" panelone-panel-" + this.options.location + "' data-index=" + (this.panels.find(".panelone-panel").length + 1) +
+            " style='width: " + this.options.panelWidths[this.getDeviceState()] + ";'></div>");
+            panel.html(content).appendTo(this.panels);
+            var button = $("<div class='panelone-button'>" + icon + "</div>").appendTo(this.buttons);
             var panelClose = $("<div class='panelone-close'>Close</div>").prependTo(panel);
             panelClose.on("click", function() {
                 panel.trigger("panelone:hide");
@@ -87,26 +70,49 @@
                 var $this = $(this);
                 setTimeout(function() {
                     $this.addClass("panelone-show");
+                    that.bringToFront(that.panels.find(".panelone-panel").index($this));
                 }, 0);
             }).on("panelone:hide", function() {
                 var $this = $(this);
                 $this.removeClass("panelone-show").on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-                    that.openPanels.splice(that.openPanels.indexOf($this), 1);
-                    $this.remove();
-                    that.fixPanelClasses();
+                    var index = that.panels.find(".panelone-panel").index($this);
+                    var dataIndex = $this.attr("data-index");
+                    that.panels.find(".panelone-panel").eq(index).remove();
+                    that.buttons.find(".panelone-button").eq(index).remove();
+                    // set last visible active
+                    that.panels.find(".panelone-panel").filter(function(){
+                        return $(this).attr("data-index") > dataIndex;
+                    }).each(function(){
+                        $(this).attr("data-index", +$(this).attr("data-index") - 1);
+                    });
+                    var newActive = that.panels.find(".panelone-panel[data-index=1]");
+                    dataIndex = that.panels.find(".panelone-panel").index(newActive);
+                    newActive.addClass("panelone-active");
+                    that.buttons.find(".panelone-button").removeClass("panelone-button-active").eq(dataIndex).addClass("panelone-button-active");
                 });
-            }).appendTo(this.options.container);
-
+            });
+            button.on("click", function(){
+                var index = that.buttons.find(".panelone-button").index($(this));
+                that.bringToFront(index);
+            });
+            panel.trigger("panelone:show");
             return panel;
+        },
+        bringToFront: function(index){
+            this.panels.find(".panelone-panel").removeClass("panelone-active").eq(index).addClass("panelone-active");
+            this.buttons.find(".panelone-button").removeClass("panelone-button-active").eq(index).addClass("panelone-button-active");
+            var dataIndex = this.panels.find(".panelone-active").attr("data-index");
+            this.panels.find(".panelone-panel").filter(function(){
+                return $(this).attr("data-index") < dataIndex;
+            }).each(function(){
+                $(this).attr("data-index", +$(this).attr("data-index") + 1);
+            });
+            this.panels.find(".panelone-active").attr("data-index", 1);
         }
     };
 
-    $.fn.panelone = function(options) {
-        return this.each(function() {
-            if (!$.data(this, "panelone")) {
-                $.data(this, "panelone",
-                    new panelone(this, options));
-            }
-        });
+    $.panelOne = function(options){
+        return new panelOne_instance(options);
     };
+
 })(jQuery, window, document);

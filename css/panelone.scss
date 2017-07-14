@@ -3,7 +3,7 @@
 @import "dark_theme";
 @import "light_theme";
 
-$buttons: 40px;
+$buttons: 50px;
 $max-z-index: 100000;
 $max-levels: 50;
 $min-z-index: $max-z-index - $max-levels;
@@ -14,7 +14,7 @@ $min-z-index: $max-z-index - $max-levels;
     bottom: 0;
     width: $buttons;
     overflow: hidden;
-    z-index: $max-z-index;
+    z-index: $max-z-index + 5;
     &.panelone-buttons-left {
         left: 0;
     }
@@ -23,14 +23,14 @@ $min-z-index: $max-z-index - $max-levels;
     }
     .panelone-buttons {
         overflow-y: scroll;
-        width: $buttons + 17px;
+        width: $buttons + 16px;
         position: absolute;
         top: 0;
         left: 0;
         height: 100%;
         .panelone-button {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 12px;
+            font-size: 19px;
             font-weight: 700;
             padding: 13px;
             margin: 1px;
@@ -38,6 +38,8 @@ $min-z-index: $max-z-index - $max-levels;
             display: flex;
             align-items: center;
             justify-content: center;
+            height: $buttons;
+            box-sizing: border-box;
         }
     }
 }
@@ -47,53 +49,65 @@ $min-z-index: $max-z-index - $max-levels;
     bottom: 0;
     z-index: $max-z-index - 1;
     transition: all .3s ease;
-    padding: 10px;
+    padding: 15px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    &.panelone-panel-left {
-        left: $buttons;
-        transform: translateX(-100%);
+    padding-top: 45px;
+    box-sizing: border-box;
+    &.panelone-panel-left, &.panelone-panel-right {
         .panelone-close {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 6px;
             padding: 10px;
             font-size: 11px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
         &.panelone-show {
             transform: translateX(0);
+            z-index: $max-z-index;
             opacity: 1;
-            @for $i from 1 through $max-levels {
-                &.panelone-back-#{$i} {
-                    /*transform: scale(pow(.987, $i)) translateX($i * 5px);*/
-                    z-index: #{$max-z-index - $i - 1};
-                   /* opacity: 0.9 / $i;*/
-                }
-            }
+        }
+        &.panelone-active {
+            z-index: $max-z-index + 1;
+        }
+    }
+    &.panelone-panel-left {
+        left: $buttons;
+        transform: translateX(-100%);
+        .panelone-close {
+            right: 6px;
         }
     }
     &.panelone-panel-right {
         right: $buttons;
         transform: translateX(100%);
         .panelone-close {
-            position: relative;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            padding: 10px;
-            font-size: 11px;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            left: 6px;
         }
-        &.panelone-show {
-            transform: translateX(0);
-            opacity: 1;
-            @for $i from 1 through 20 {
-                &.panelone-back-#{$i} {
-                    /*transform: scale(pow(.987, $i)) translateX($i * -5px);*/
-                    z-index: #{$max-z-index - $i - 1};
-                    /*opacity: 0.9 / $i;*/
-                }
+    }
+}
+
+.panelone-panel-right.panelone-panel.panelone-show {
+    @for $i from 2 through 20 {
+        &[data-index='#{$i}'] {
+            .panelone-close {
+                display: none;
             }
+            transform: scale(pow(.9955, $i - 1)) translateX(($i - 1) * -2.34px) !important;
+            z-index: #{$max-z-index - $i - 2} !important;
+            opacity: 1 / $i !important;
+        }
+    }
+}
+
+.panelone-panel-left.panelone-panel.panelone-show {
+    @for $i from 2 through 20 {
+        &[data-index='#{$i}'] {
+            .panelone-close {
+                display: none;
+            }
+            transform: scale(pow(.9955, $i - 1)) translateX(($i - 1) * 2.34px) !important;
+            z-index: #{$max-z-index - $i - 2} !important;
+            opacity: 1 / $i !important;
         }
     }
 }
